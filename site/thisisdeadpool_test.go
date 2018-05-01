@@ -3,6 +3,7 @@ package site
 import (
 	"fmt"
 	"os"
+	"reflect"
 	"testing"
 
 	"github.com/PuerkitoBio/goquery"
@@ -12,6 +13,18 @@ import (
 func assertEqual(t *testing.T, expected string, actual string) {
 	if expected != actual {
 		t.Errorf("Expected string to be the same. Got '%s' instead '%s'", actual, expected)
+	}
+}
+
+func assertNil(t *testing.T, actual interface{}) {
+	if actual != nil {
+		t.Errorf("Expected 'nil'. Got type '%s'", reflect.TypeOf(actual).Name())
+	}
+}
+
+func assertNotNil(t *testing.T, actual interface{}) {
+	if actual == nil {
+		t.Errorf("Expected error. Got 'nil'")
 	}
 }
 
@@ -59,6 +72,14 @@ func DocVolumes() *goquery.Document {
 		doc = loadDoc("thisisdeadpool-volumes.html")
 	}
 	return doc
+}
+
+func TestValidThisIsDeadpoolCreation(t *testing.T) {
+	siteScraper, _ := NewSiteScraper("http://thisisdeadpool.com/cable-deadpool-001-2004/")
+
+	if reflect.TypeOf(siteScraper).Kind() != reflect.TypeOf(&ThisIsDeadpool{}).Kind() {
+		t.Error("error")
+	}
 }
 
 func TestValidVolumeTitle(t *testing.T) {

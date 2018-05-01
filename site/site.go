@@ -1,10 +1,10 @@
 package site
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"net/url"
-	"reflect"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -50,17 +50,18 @@ func getSiteHostname(address string) string {
 }
 
 // NewSiteScraper will factory instantiate the right site
-func NewSiteScraper(url string) {
+func NewSiteScraper(url string) (site Site, err error) {
 	domain := getSiteHostname(url)
-	if domain != "" {
-		println(domain)
-	}
 
 	for _, module := range modules {
 		if module.ID == domain {
-			site := module.Fn(url)
-			println(site.GetURL())
-			println(reflect.TypeOf(site).Name())
+			site = module.Fn(url)
+			break
 		}
 	}
+
+	if site == nil {
+		err = errors.New("site is not supported")
+	}
+	return
 }
