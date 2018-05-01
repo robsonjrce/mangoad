@@ -6,8 +6,15 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
+)
+
+var (
+	httpc = &http.Client{
+		Timeout: time.Millisecond * 1000,
+	}
 )
 
 // Site define common information to supported sites modules
@@ -20,8 +27,14 @@ type Site interface {
 }
 
 func getSiteContent(address string) *goquery.Document {
+	req, err := http.NewRequest("GET", address, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/45.0.2454.101 Chrome/45.0.2454.101 Safari/537.36")
+
 	// Request the HTML page.
-	res, err := http.Get(address)
+	res, err := httpc.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}
