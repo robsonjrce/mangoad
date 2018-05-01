@@ -13,8 +13,8 @@ import (
 // Site define common information to supported sites modules
 type Site interface {
 	GetURL() string
-	GetPageTitle() string
-	GetPages() []string
+	GetVolumeTitle() string
+	GetVolumePages() []string
 	UpdateDocument(doc *goquery.Document)
 }
 

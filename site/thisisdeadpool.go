@@ -22,8 +22,12 @@ func (s *ThisIsDeadpool) UpdateDocument(doc *goquery.Document) {
 	s.Doc = doc
 }
 
-// GetPageTitle will return
-func (s *ThisIsDeadpool) GetPageTitle() (title string) {
+func (s *ThisIsDeadpool) GetVolumes() {
+
+}
+
+// GetVolumeTitle will return
+func (s *ThisIsDeadpool) GetVolumeTitle() (title string) {
 	s.Doc.Find(".site .site-content .content-area .site-main .post .entry-header").Each(func(i int, s *goquery.Selection) {
 		title = s.Find("h1").Text()
 		title = strings.TrimSpace(title)
@@ -31,8 +35,8 @@ func (s *ThisIsDeadpool) GetPageTitle() (title string) {
 	return
 }
 
-// GetPages will return
-func (s *ThisIsDeadpool) GetPages() (pages []string) {
+// GetVolumePages will return
+func (s *ThisIsDeadpool) GetVolumePages() (pages []string) {
 	// Find the review items
 	s.Doc.Find(".site .site-content .content-area .site-main .post .entry-content p img").Each(func(i int, s *goquery.Selection) {
 		// For each item found, get the band and title

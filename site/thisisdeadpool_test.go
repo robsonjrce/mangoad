@@ -57,11 +57,11 @@ func TestValidHtmlDocument(t *testing.T) {
 
 	thisisdeadpool.UpdateDocument(Doc())
 
-	assertEqual(t, "Cable & Deadpool 001 (2004)", thisisdeadpool.GetPageTitle())
+	assertEqual(t, "Cable & Deadpool 001 (2004)", thisisdeadpool.GetVolumeTitle())
 
 	expectedPages := []string{
 		"http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-000.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-001.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-002.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-003.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-004.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-005.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-006.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-007.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-008.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-009.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-010.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-011.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-012.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-013.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-014.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-015.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-016.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-017.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-018.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-019.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-020.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-021.jpg", "http://thisisdeadpool.com/wp-content/uploads/2017/12/Cable-Deadpool-001-022.jpg",
 	}
 
-	assertEqualPages(t, expectedPages, thisisdeadpool.GetPages())
+	assertEqualPages(t, expectedPages, thisisdeadpool.GetVolumePages())
 }
