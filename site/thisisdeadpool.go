@@ -22,29 +22,40 @@ func (s *ThisIsDeadpool) UpdateDocument(doc *goquery.Document) {
 	s.Doc = doc
 }
 
-func (s *ThisIsDeadpool) GetVolumes() {
-
+// GetVolumes will return
+func (s *ThisIsDeadpool) GetVolumes() (volumes []string) {
+	s.Doc.
+		Find(".site .site-content .content-area .site-main .page-content .pt-cv-title a").
+		Each(func(i int, s *goquery.Selection) {
+			link, exist := s.Attr("href")
+			if exist {
+				volumes = append(volumes, link)
+			}
+		})
+	return
 }
 
 // GetVolumeTitle will return
 func (s *ThisIsDeadpool) GetVolumeTitle() (title string) {
-	s.Doc.Find(".site .site-content .content-area .site-main .post .entry-header").Each(func(i int, s *goquery.Selection) {
-		title = s.Find("h1").Text()
-		title = strings.TrimSpace(title)
-	})
+	s.Doc.
+		Find(".site .site-content .content-area .site-main .post .entry-header").
+		Each(func(i int, s *goquery.Selection) {
+			title = s.Find("h1").Text()
+			title = strings.TrimSpace(title)
+		})
 	return
 }
 
 // GetVolumePages will return
 func (s *ThisIsDeadpool) GetVolumePages() (pages []string) {
-	// Find the review items
-	s.Doc.Find(".site .site-content .content-area .site-main .post .entry-content p img").Each(func(i int, s *goquery.Selection) {
-		// For each item found, get the band and title
-		img, exist := s.Attr("src")
-		if exist {
-			pages = append(pages, img)
-		}
-	})
+	s.Doc.
+		Find(".site .site-content .content-area .site-main .post .entry-content p img").
+		Each(func(i int, s *goquery.Selection) {
+			img, exist := s.Attr("src")
+			if exist {
+				pages = append(pages, img)
+			}
+		})
 	return
 }
 

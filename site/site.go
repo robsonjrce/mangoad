@@ -15,6 +15,7 @@ type Site interface {
 	GetURL() string
 	GetVolumeTitle() string
 	GetVolumePages() []string
+	GetVolumes() []string
 	UpdateDocument(doc *goquery.Document)
 }
 
