@@ -8,8 +8,9 @@ import (
 
 // ThisIsDeadpool supports the site of same name
 type ThisIsDeadpool struct {
-	URL string
-	Doc *goquery.Document
+	URL  string
+	Type string
+	Doc  *goquery.Document
 }
 
 // GetURL will return url

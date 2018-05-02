@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"reflect"
 	"strings"
 	"time"
 
@@ -56,6 +57,7 @@ func getSiteHostname(address string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	parts := strings.Split(u.Hostname(), ".")
 	domain := parts[len(parts)-2] + "." + parts[len(parts)-1]
 
@@ -75,6 +77,65 @@ func NewSiteScraper(url string) (site Site, err error) {
 
 	if site == nil {
 		err = errors.New("site is not supported")
+	}
+	return
+}
+
+// NewSiteScraperFromConfig is capable to factory the right scraper with minor customization
+func NewSiteScraperFromConfig(url string, urlType string) (site Site, err error) {
+	site, err = NewSiteScraper(url)
+	if err != nil {
+		return
+	}
+
+	// reflection all the way up so we can update default values
+	ptyp := reflect.TypeOf(site)
+	pval := reflect.ValueOf(site)
+
+	var typ reflect.Type
+	var val reflect.Value
+	if ptyp.Kind() == reflect.Ptr {
+		// argument is a pointer, dereferencing.
+		typ = ptyp.Elem()
+		val = pval.Elem()
+	} else {
+		typ = ptyp
+		val = pval
+	}
+	if typ.Kind() != reflect.Struct {
+		site = nil
+		err = errors.New("it is not a struct")
+		return
+	}
+	if val.CanSet() {
+		log.Printf("We can set values")
+	} else {
+		site = nil
+		err = errors.New("we cannot set values")
+		return
+	}
+
+	for i := 0; i < typ.NumField(); i++ {
+		// informations for type
+		sfld := typ.Field(i)
+		nfld := sfld.Name
+		tfld := sfld.Type
+		kfld := tfld.Kind()
+
+		// informations for value
+		vfld := val.Field(i)
+		if vfld.CanSet() {
+			switch nfld {
+			case "Type":
+				vfld.SetString(urlType)
+			}
+		}
+		log.Printf("struct field '%d': name '%s' type '%s' kind '%s' value '%v'\n",
+			i,
+			sfld.Name,
+			tfld,
+			kfld,
+			vfld)
 	}
 	return
 }
